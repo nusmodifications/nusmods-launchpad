@@ -92,7 +92,21 @@ app.get('/login/facebook/return',
     res.redirect('/');
   });
 
-app.use('/', require('connect-ensure-login').ensureLoggedIn(), dashboard);
-app.use('/commits', require('connect-ensure-login').ensureLoggedIn(), commits);
+function ensureWhiteListedUser(req, res, next) {
+  if (req.user && req.user.id && config.facebookWhitelistedUsers.includes(req.user.id)) {
+    next();
+    return;
+  }
+  res.render('not_authorized', { user: req.user });
+}
+
+app.use('/',
+  require('connect-ensure-login').ensureLoggedIn(),
+  ensureWhiteListedUser,
+  dashboard);
+app.use('/commits',
+  require('connect-ensure-login').ensureLoggedIn(),
+  ensureWhiteListedUser,
+  commits);
 
 app.listen(3000);

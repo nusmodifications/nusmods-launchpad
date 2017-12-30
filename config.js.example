@@ -6,7 +6,7 @@ module.exports = {
   host: 'http://localhost:3000',
   facebookAppID: 'APP_ID',
   facebookAppSecret: 'APP_SECRET',
-  facebookAllowedUsers: [
+  facebookWhitelistedUsers: [
     ''
   ],
 };
