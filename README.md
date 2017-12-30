@@ -8,7 +8,7 @@ Deployment dashboard for NUSMods - http://launch.nusmods.com
 
 ```sh
 $ yarn
-$ cp config.js.example config.js
+$ cp config.example.js config.js
 # Create FB app and replace config with app ID and secret.
 $ npm start
 $ open http://localhost:3000
