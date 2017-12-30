@@ -1,6 +1,6 @@
 # NUSMods Launchpad
 
-Deployment dashboard for NUSMods.
+Deployment dashboard for NUSMods - http://launch.nusmods.com
 
 ![Demo](screenshots/demo.png)
 
