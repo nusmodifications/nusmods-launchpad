@@ -2,55 +2,59 @@ extends layout
 
 block content
   .container
-    h1 NUSMods Launchpad 🚀
+    .row
+      .col-md-12
+        div.text-center
+          img(src='/img/logo.png', width=250)
+        br
 
-    div.text-right
-      | Welcome <strong>#{user.displayName}!</strong>
-    br
+        div.text-right
+          | Welcome <strong>#{user.displayName}!</strong>
+        br
 
-    div.text-right
-      button.btn.btn-outline-primary.btn-sm.js-pull-button
-        | Pull Master
-      | &nbsp;
-      button.btn.btn-outline-info.btn-sm.js-yarn-button
-        | Yarn Install
-      | &nbsp;
-      button.btn.btn-outline-warning.btn-sm.js-build-button
-        | Build Staging
-      | &nbsp;
-      button.btn.btn-outline-danger.btn-sm.js-promote-button
-        | Promote Staging
-    br
-    table.table.table-striped.js-commits-table
-      thead
-        th Message
-        th Commit
-        th Author
-        th Date
-        th
-        th
-      tbody
-      each commit, index in commits
-        tr
-          td
-            if commit.extendedMessage
-              details
-                summary= commit.shortMessage
-                pre= commit.extendedMessage
-            else
-              summary= commit.shortMessage
-          td= commit.sha
-          td= commit.author.name
-          td= commit.date
-          td
-            if commit.sha === productionCommit
-              span.badge.badge-pill.badge-success PRODUCTION
-            if commit.sha === stagingCommit
-              span.badge.badge-pill.badge-success STAGING
-          td
-            unless index === 0
-              button(class='btn btn-outline-primary btn-sm js-checkout-button', data-commit-sha=commit.sha)
-                | Checkout
+        div.text-right
+          button.btn.btn-outline-primary.btn-sm.js-pull-button
+            | Pull Master
+          | &nbsp;
+          button.btn.btn-outline-primary.btn-sm.js-yarn-button
+            | Yarn Install
+          | &nbsp;
+          button.btn.btn-outline-primary.btn-sm.js-build-button
+            | Build Staging
+          | &nbsp;
+          button.btn.btn-outline-primary.btn-sm.js-promote-button
+            | Promote Staging
+        br
+        table.table.table-striped.js-commits-table
+          thead
+            th Message
+            th Commit
+            th Author
+            th Date
+            th
+            th
+          tbody
+          each commit, index in commits
+            tr
+              td
+                if commit.extendedMessage
+                  details
+                    summary= commit.shortMessage
+                    pre= commit.extendedMessage
+                else
+                  summary= commit.shortMessage
+              td= commit.sha
+              td= commit.author.name
+              td= commit.date
+              td
+                if commit.sha === productionCommit
+                  span.badge.badge-pill.badge-success PRODUCTION
+                if commit.sha === stagingCommit
+                  span.badge.badge-pill.badge-success STAGING
+              td
+                unless index === 0
+                  button(class='btn btn-outline-primary btn-sm js-checkout-button', data-commit-sha=commit.sha)
+                    | Checkout
   script.
     (() => {
       const $pullButton = document.querySelector('.js-pull-button');

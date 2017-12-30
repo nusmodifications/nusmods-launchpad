@@ -4,8 +4,15 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif;
 }
 
-a {
-  color: #00B7FF;
+.btn-outline-primary {
+  border-color: #ff5138;
+  color: #ff5138;
+}
+
+.btn-outline-primary:hover {
+  background-color: #ff5138;
+  border-color: #ff5138;
+  color: #fff;
 }
 
 summary {
