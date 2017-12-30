@@ -8,25 +8,29 @@ block content
           img(src='/img/logo.png', width=250)
         br
 
-        div.text-right
+        div
           unless isLoggedIn
-            a(href='/login/facebook', class='btn btn-primary btn-sm') Facebook Login
+            div.text-right
+              a(href='/login/facebook', class='btn btn-primary btn-sm') Facebook Login
           else
             div
-              div
+              div.text-right
                 p Welcome <strong>#{user.displayName}!</strong>
-              div
-                button.btn.btn-outline-primary.btn-sm.js-pull-button
-                  | Pull Master
-                | &nbsp;
-                button.btn.btn-outline-primary.btn-sm.js-yarn-button
-                  | Yarn Install
-                | &nbsp;
-                button.btn.btn-outline-primary.btn-sm.js-build-button
-                  | Build Staging
-                | &nbsp;
-                button.btn.btn-outline-primary.btn-sm.js-promote-button
-                  | Promote Staging
+              div.row
+                if !ongoingBuild
+                  div.col-md-12.text-right
+                    button.btn.btn-outline-primary.btn-sm.js-pull-button
+                      | Pull Master
+                    | &nbsp;
+                    button.btn.btn-outline-primary.btn-sm.js-yarn-button
+                      | Yarn Install
+                    | &nbsp;
+                    button.btn.btn-outline-primary.btn-sm.js-promote-button
+                      | Promote Staging
+                else
+                  div.col-md-12
+                    .alert.alert-warning
+                      | There is an ongoing build: <code>#{ongoingBuild}</code>. Please wait till it is done.
         br
         table.table.table-striped.js-commits-table
           thead
@@ -55,12 +59,27 @@ block content
                   span.badge.badge-pill.badge-warning PRODUCTION
                 if commit.sha === stagingCommit
                   span.badge.badge-pill.badge-warning STAGING
+                if commit.sha === ongoingBuild
+                  span.badge.badge-pill.badge-danger BUILDING
               td
-                if index !== 0 && isLoggedIn
-                  button(class='btn btn-outline-primary btn-sm js-checkout-button', data-commit-sha=commit.sha)
-                    | Checkout
+                if isLoggedIn && !ongoingBuild
+                  if index !== 0
+                    button(class='btn btn-outline-primary btn-sm js-checkout-button', data-commit-sha=commit.sha)
+                      | Checkout
+                  else
+                    button.btn.btn-outline-primary.btn-sm.js-build-button
+                      | Build
   script.
     (() => {
+      // Auto-refresh every now and then if there is an ongoing build.
+      const ongoingBuild = '#{ongoingBuild}';
+      const REFRESH_TIMEOUT = 20000;
+      if (ongoingBuild) {
+        setTimeout(() => {
+          window.location.reload();
+        }, REFRESH_TIMEOUT);
+      }
+
       const $pullButton = document.querySelector('.js-pull-button');
       if ($pullButton) {
         $pullButton.addEventListener('click', () => {
@@ -104,7 +123,7 @@ block content
             if (!res.ok) {
               throw res.status;
             }
-            alert('Build success!');
+            alert('Build request sent. Please refresh the page after a while and check the status.');
             window.location.reload();
           }).catch(() => {
             alert('Build staging failed');

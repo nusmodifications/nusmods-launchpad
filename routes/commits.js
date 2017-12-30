@@ -5,6 +5,11 @@ const router = express.Router();
 
 const config = require('../config');
 
+const exp = {
+  router,
+  ongoingBuild: null,
+};
+
 router.post('/master/pull', (req, res) => {
   const cmd = `cd ${config.repo} && git pull`;
   console.log(cmd);
@@ -21,8 +26,17 @@ router.post('/master/yarn', (req, res) => {
 
 router.post('/master/build', (req, res) => {
   const cmd = `cd ${config.app} && yarn run build`;
+  const currentCommit = childProcess
+    .execSync(`cd ${config.app} && git rev-parse HEAD`)
+    .toString()
+    .trim()
+    .substring(0, 7);
+  exp.ongoingBuild = currentCommit;
   console.log(cmd);
-  childProcess.execSync(cmd);
+   // Has to be async or else the whole server freezes.
+  childProcess.exec(cmd, null, () => {
+    exp.ongoingBuild = null;
+  });
   res.sendStatus(204);
 });
 
@@ -45,4 +59,4 @@ router.post('/:commitHash/checkout', (req, res) => {
   res.sendStatus(204);
 });
 
-module.exports = router;
+module.exports = exp;

@@ -87,6 +87,14 @@ app.use('/',
   dashboard);
 app.use('/commits',
   require('connect-ensure-login').ensureLoggedIn('/'),
-  commits);
+  (req, res, next) => {
+    // Do not allow any actions if there is an ongoing build.
+    if (commits.ongoingBuild) {
+      res.sendStatus(403);
+      return;
+    }
+    next();
+  },
+  commits.router);
 
 app.listen(3000);

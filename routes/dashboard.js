@@ -9,6 +9,7 @@ const moment = require('moment');
 const config = require('../config');
 const LATEST_COMMITS = 200;
 const COMMIT_HASH_FILE = 'commit-hash.txt';
+const commits = require('./commits');
 
 /* GET commits log. */
 router.get('/', async (req, res, next) => {
@@ -16,20 +17,28 @@ router.get('/', async (req, res, next) => {
   const repo = await nodegit.Repository.open(path.resolve(config.repo));
   const masterCommit = await repo.getMasterCommit();
   const history = masterCommit.history(nodegit.Revwalk.SORT.Time);
-  const stagingCommit = fs.readFileSync(path.resolve(config.stagingDir, COMMIT_HASH_FILE))
+  let stagingCommit = null;
+  try {
+    stagingCommit = fs.readFileSync(path.resolve(config.stagingDir, COMMIT_HASH_FILE))
                           .toString()
                           .trim();
-  const productionCommit = fs.readFileSync(path.resolve(config.productionDir, COMMIT_HASH_FILE))
+  } catch (err) {}
+
+  let productionCommit = null;
+  try {
+    productionCommit = fs.readFileSync(path.resolve(config.productionDir, COMMIT_HASH_FILE))
                             .toString()
                             .trim();
-  history.on('end', function(commits) {
-    const commitObjs = commits.slice(0, LATEST_COMMITS).map(commit => {
+  } catch (err) {}
+
+  history.on('end', function(commitMessages) {
+    const commitObjs = commitMessages.slice(0, LATEST_COMMITS).map(commit => {
       const author = commit.author();
       const messageLines = commit.message().trim().split('\n');
       const shortMessage = messageLines[0];
       const extendedMessage = messageLines.length > 1 ? messageLines.slice(1).join('\n') : '';
       return {
-        sha: commit.sha().slice(0, 7),
+        sha: commit.sha().substring(0, 7),
         author: {
           name: author.name(),
           email: author.email(),
@@ -47,6 +56,7 @@ router.get('/', async (req, res, next) => {
       user: req.user,
       stagingCommit,
       productionCommit,
+      ongoingBuild: commits.ongoingBuild,
     });
   });
 
