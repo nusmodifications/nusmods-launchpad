@@ -61,55 +61,63 @@ block content
   script.
     (() => {
       const $pullButton = document.querySelector('.js-pull-button');
-      $pullButton.addEventListener('click', () => {
-        $pullButton.textContent = 'Pulling...';
-        fetch('/commits/master/pull', { method: 'POST', credentials: 'same-origin' }).then(res => {
-          window.location.reload();
-        }).catch(() => {
-          alert('Pulling failed');
-          $pullButton.textContent = 'Pull Master';
+      if ($pullButton) {
+        $pullButton.addEventListener('click', () => {
+          $pullButton.textContent = 'Pulling...';
+          fetch('/commits/master/pull', { method: 'POST', credentials: 'same-origin' }).then(res => {
+            window.location.reload();
+          }).catch(() => {
+            alert('Pulling failed');
+            $pullButton.textContent = 'Pull Master';
+          });
         });
-      });
+      }
 
       const $yarnButton = document.querySelector('.js-yarn-button');
-      $yarnButton.addEventListener('click', () => {
-        $yarnButton.textContent = 'Yarn Installing...';
-        fetch('/commits/master/yarn', { method: 'POST', credentials: 'same-origin' }).then(res => {
-          $yarnButton.textContent = 'Yarn Success!';
-          setTimeout(() => {
+      if ($yarnButton) {
+        $yarnButton.addEventListener('click', () => {
+          $yarnButton.textContent = 'Yarn Installing...';
+          fetch('/commits/master/yarn', { method: 'POST', credentials: 'same-origin' }).then(res => {
+            $yarnButton.textContent = 'Yarn Success!';
+            setTimeout(() => {
+              $yarnButton.textContent = 'Yarn Install';
+            }, 1000);
+          }).catch(() => {
+            alert('Yarn install failed');
             $yarnButton.textContent = 'Yarn Install';
-          }, 1000);
-        }).catch(() => {
-          alert('Yarn install failed');
-          $yarnButton.textContent = 'Yarn Install';
+          });
         });
-      });
+      }
 
       const $buildButton = document.querySelector('.js-build-button');
-      $buildButton.addEventListener('click', () => {
-        $buildButton.textContent = 'Building...';
-        fetch('/commits/master/build', { method: 'POST', credentials: 'same-origin' }).then(res => {
-          alert('Build success!');
-          window.location.reload();
-        }).catch(() => {
-          alert('Build staging failed');
-          $buildButton.textContent = 'Build Staging';
+      if ($buildButton) {
+        $buildButton.addEventListener('click', () => {
+          $buildButton.textContent = 'Building...';
+          fetch('/commits/master/build', { method: 'POST', credentials: 'same-origin' }).then(res => {
+            alert('Build success!');
+            window.location.reload();
+          }).catch(() => {
+            alert('Build staging failed');
+            $buildButton.textContent = 'Build Staging';
+          });
         });
-      });
+      }
 
       const $promoteButton = document.querySelector('.js-promote-button');
-      $promoteButton.addEventListener('click', () => {
-        $promoteButton.textContent = 'Promoting...';
-        if (!confirm('Are you sure you want to promote staging?')) {
-          return;
-        }
-        fetch('/commits/master/promote_staging', { method: 'POST', credentials: 'same-origin' }).then(res => {
-          window.location.reload();
-        }).catch(() => {
-          alert('Promoting failed');
-          $promoteButton.textContent = 'Promote Staging';
+      if ($promoteButton) {
+        $promoteButton.addEventListener('click', () => {
+          $promoteButton.textContent = 'Promoting...';
+          if (!confirm('Are you sure you want to promote staging?')) {
+            return;
+          }
+          fetch('/commits/master/promote_staging', { method: 'POST', credentials: 'same-origin' }).then(res => {
+            window.location.reload();
+          }).catch(() => {
+            alert('Promoting failed');
+            $promoteButton.textContent = 'Promote Staging';
+          });
         });
-      });
+      }
 
       const $commitsTable = document.querySelector('.js-commits-table');
       $commitsTable.addEventListener('click', (event) => {
