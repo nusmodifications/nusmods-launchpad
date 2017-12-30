@@ -30,7 +30,7 @@ block content
                 else
                   div.col-md-12
                     .alert.alert-warning
-                      | There is an ongoing build: <code>#{ongoingBuild}</code>. Please wait till it is done.
+                      | There is an ongoing build: <code>#{ongoingBuild}</code>. The page will be refreshed automatically when it is done.
         br
         table.table.table-striped.js-commits-table
           thead
@@ -123,7 +123,7 @@ block content
             if (!res.ok) {
               throw res.status;
             }
-            alert('Build request sent. Please refresh the page after a while and check the status.');
+            alert('Build request sent. Please check this page after a while.');
             window.location.reload();
           }).catch(() => {
             alert('Build staging failed');
