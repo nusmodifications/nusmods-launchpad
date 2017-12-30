@@ -19,6 +19,7 @@
     "express": "^4.13.1",
     "express-session": "^1.11.3",
     "forever": "^0.15.3",
+    "moment": "^2.20.1",
     "morgan": "^1.6.1",
     "nodegit": "^0.20.3",
     "passport": "^0.2.2",

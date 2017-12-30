@@ -4,6 +4,7 @@ const fs = require('fs');
 const express = require('express');
 const router = express.Router();
 const nodegit = require('nodegit');
+const moment = require('moment');
 
 const config = require('../config');
 const LATEST_COMMITS = 200;
@@ -33,7 +34,7 @@ router.get('/', async (req, res, next) => {
           name: author.name(),
           email: author.email(),
         },
-        date: commit.date(),
+        date: moment(commit.date()).format('MMM Do YYYY h:mma'),
         shortMessage,
         extendedMessage,
       };
