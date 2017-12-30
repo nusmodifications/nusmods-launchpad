@@ -35,6 +35,10 @@ router.post('/master/promote_staging', (req, res) => {
 
 router.post('/:commitHash/checkout', (req, res) => {
   const commitHash = req.params.commitHash;
+  if (commitHash.length !== 7 || !/[0-9a-f]{7}/.test(commitHash)) {
+    res.sendStatus(403);
+    return;
+  }
   const cmd = `cd ${config.app} && git reset --hard ${commitHash}`;
   console.log(cmd);
   childProcess.execSync(cmd);

@@ -65,6 +65,9 @@ block content
         $pullButton.addEventListener('click', () => {
           $pullButton.textContent = 'Pulling...';
           fetch('/commits/master/pull', { method: 'POST', credentials: 'same-origin' }).then(res => {
+            if (!res.ok) {
+              throw res.status;
+            }
             window.location.reload();
           }).catch(() => {
             alert('Pulling failed');
@@ -78,6 +81,9 @@ block content
         $yarnButton.addEventListener('click', () => {
           $yarnButton.textContent = 'Yarn Installing...';
           fetch('/commits/master/yarn', { method: 'POST', credentials: 'same-origin' }).then(res => {
+            if (!res.ok) {
+              throw res.status;
+            }
             $yarnButton.textContent = 'Yarn Success!';
             setTimeout(() => {
               $yarnButton.textContent = 'Yarn Install';
@@ -94,6 +100,9 @@ block content
         $buildButton.addEventListener('click', () => {
           $buildButton.textContent = 'Building...';
           fetch('/commits/master/build', { method: 'POST', credentials: 'same-origin' }).then(res => {
+            if (!res.ok) {
+              throw res.status;
+            }
             alert('Build success!');
             window.location.reload();
           }).catch(() => {
@@ -111,6 +120,9 @@ block content
             return;
           }
           fetch('/commits/master/promote_staging', { method: 'POST', credentials: 'same-origin' }).then(res => {
+            if (!res.ok) {
+              throw res.status;
+            }
             window.location.reload();
           }).catch(() => {
             alert('Promoting failed');
@@ -128,6 +140,9 @@ block content
         const $button = event.target;
         $button.textContent = 'Checking out...';
         fetch(`/commits/${commitHash}/checkout`, { method: 'POST', credentials: 'same-origin' }).then(res => {
+          if (!res.ok) {
+            throw res.status;
+          }
           window.location.reload();
         }).catch(() => {
           alert(`Checking out ${commitHash} failed!`);
