@@ -75,28 +75,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Define routes.
-app.get('/login', (req, res) => {
-  if (req.user) {
-    res.redirect('/');
-    return;
-  }
-  res.render('login');
-});
-
 app.get('/login/facebook', passport.authenticate('facebook'));
 
 app.get('/login/facebook/return',
-  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  passport.authenticate('facebook', { failureRedirect: '/' }),
   (req, res) => {
     res.redirect('/');
   });
 
 app.use('/',
-  require('connect-ensure-login').ensureLoggedIn(),
   dashboard);
 app.use('/commits',
-  require('connect-ensure-login').ensureLoggedIn(),
+  require('connect-ensure-login').ensureLoggedIn('/'),
   commits);
 
 app.listen(3000);

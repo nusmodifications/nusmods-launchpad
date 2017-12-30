@@ -11,6 +11,7 @@ const COMMIT_HASH_FILE = 'commit-hash.txt';
 
 /* GET commits log. */
 router.get('/', async (req, res, next) => {
+  const user = req.user;
   const repo = await nodegit.Repository.open(path.resolve(config.repo));
   const masterCommit = await repo.getMasterCommit();
   const history = masterCommit.history(nodegit.Revwalk.SORT.Time);
@@ -41,6 +42,7 @@ router.get('/', async (req, res, next) => {
     res.render('dashboard', {
       title: 'NUSMods Launchpad',
       commits: commitObjs,
+      isLoggedIn: req.user && req.user.id,
       user: req.user,
       stagingCommit,
       productionCommit,

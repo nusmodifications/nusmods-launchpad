@@ -9,21 +9,24 @@ block content
         br
 
         div.text-right
-          | Welcome <strong>#{user.displayName}!</strong>
-        br
-
-        div.text-right
-          button.btn.btn-outline-primary.btn-sm.js-pull-button
-            | Pull Master
-          | &nbsp;
-          button.btn.btn-outline-primary.btn-sm.js-yarn-button
-            | Yarn Install
-          | &nbsp;
-          button.btn.btn-outline-primary.btn-sm.js-build-button
-            | Build Staging
-          | &nbsp;
-          button.btn.btn-outline-primary.btn-sm.js-promote-button
-            | Promote Staging
+          unless isLoggedIn
+            a(href='/login/facebook', class='btn btn-primary btn-sm') Facebook Login
+          else
+            div
+              div
+                p Welcome <strong>#{user.displayName}!</strong>
+              div
+                button.btn.btn-outline-primary.btn-sm.js-pull-button
+                  | Pull Master
+                | &nbsp;
+                button.btn.btn-outline-primary.btn-sm.js-yarn-button
+                  | Yarn Install
+                | &nbsp;
+                button.btn.btn-outline-primary.btn-sm.js-build-button
+                  | Build Staging
+                | &nbsp;
+                button.btn.btn-outline-primary.btn-sm.js-promote-button
+                  | Promote Staging
         br
         table.table.table-striped.js-commits-table
           thead
@@ -52,7 +55,7 @@ block content
                 if commit.sha === stagingCommit
                   span.badge.badge-pill.badge-success STAGING
               td
-                unless index === 0
+                if index !== 0 && isLoggedIn
                   button(class='btn btn-outline-primary btn-sm js-checkout-button', data-commit-sha=commit.sha)
                     | Checkout
   script.
