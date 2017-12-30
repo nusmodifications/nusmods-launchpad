@@ -116,10 +116,10 @@ block content
       const $promoteButton = document.querySelector('.js-promote-button');
       if ($promoteButton) {
         $promoteButton.addEventListener('click', () => {
-          $promoteButton.textContent = 'Promoting...';
           if (!confirm('Are you sure you want to promote staging?')) {
             return;
           }
+          $promoteButton.textContent = 'Promoting...';
           fetch('/commits/master/promote_staging', { method: 'POST', credentials: 'same-origin' }).then(res => {
             if (!res.ok) {
               throw res.status;
