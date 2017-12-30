@@ -1,0 +1,122 @@
+extends layout
+
+block content
+  .container
+    h1 NUSMods Launchpad 🚀
+
+    div.text-right
+      | Welcome <strong>#{user.displayName}!</strong>
+    br
+
+    div.text-right
+      button.btn.btn-outline-primary.btn-sm.js-pull-button
+        | Pull Master
+      | &nbsp;
+      button.btn.btn-outline-info.btn-sm.js-yarn-button
+        | Yarn Install
+      | &nbsp;
+      button.btn.btn-outline-warning.btn-sm.js-build-button
+        | Build Staging
+      | &nbsp;
+      button.btn.btn-outline-danger.btn-sm.js-promote-button
+        | Promote Staging
+    br
+    table.table.table-striped.js-commits-table
+      thead
+        th Message
+        th Commit
+        th Author
+        th Date
+        th
+        th
+      tbody
+      each commit, index in commits
+        tr
+          td
+            if commit.extendedMessage
+              details
+                summary= commit.shortMessage
+                pre= commit.extendedMessage
+            else
+              summary= commit.shortMessage
+          td= commit.sha
+          td= commit.author.name
+          td= commit.date
+          td
+            if commit.sha === productionCommit
+              span.badge.badge-pill.badge-success PRODUCTION
+            if commit.sha === stagingCommit
+              span.badge.badge-pill.badge-success STAGING
+          td
+            unless index === 0
+              button(class='btn btn-outline-primary btn-sm js-checkout-button', data-commit-sha=commit.sha)
+                | Checkout
+  script.
+    (() => {
+      const $pullButton = document.querySelector('.js-pull-button');
+      $pullButton.addEventListener('click', () => {
+        $pullButton.textContent = 'Pulling...';
+        fetch('/commits/master/pull', { method: 'POST', credentials: 'same-origin' }).then(res => {
+          window.location.reload();
+        }).catch(() => {
+          alert('Pulling failed');
+          $pullButton.textContent = 'Pull Master';
+        });
+      });
+
+      const $yarnButton = document.querySelector('.js-yarn-button');
+      $yarnButton.addEventListener('click', () => {
+        $yarnButton.textContent = 'Yarn Installing...';
+        fetch('/commits/master/yarn', { method: 'POST', credentials: 'same-origin' }).then(res => {
+          $yarnButton.textContent = 'Yarn Success!';
+          setTimeout(() => {
+            $yarnButton.textContent = 'Yarn Install';
+          }, 1000);
+        }).catch(() => {
+          alert('Yarn install failed');
+          $yarnButton.textContent = 'Yarn Install';
+        });
+      });
+
+      const $buildButton = document.querySelector('.js-build-button');
+      $buildButton.addEventListener('click', () => {
+        $buildButton.textContent = 'Building...';
+        fetch('/commits/master/build', { method: 'POST', credentials: 'same-origin' }).then(res => {
+          alert('Build success!');
+          window.location.reload();
+        }).catch(() => {
+          alert('Build staging failed');
+          $buildButton.textContent = 'Build Staging';
+        });
+      });
+
+      const $promoteButton = document.querySelector('.js-promote-button');
+      $promoteButton.addEventListener('click', () => {
+        $promoteButton.textContent = 'Promoting...';
+        if (!confirm('Are you sure you want to promote staging?')) {
+          return;
+        }
+        fetch('/commits/master/promote_staging', { method: 'POST', credentials: 'same-origin' }).then(res => {
+          window.location.reload();
+        }).catch(() => {
+          alert('Promoting failed');
+          $promoteButton.textContent = 'Promote Staging';
+        });
+      });
+
+      const $commitsTable = document.querySelector('.js-commits-table');
+      $commitsTable.addEventListener('click', (event) => {
+        if (!event.target.classList.contains('js-checkout-button')) {
+          return;
+        }
+        const commitHash = event.target.getAttribute('data-commit-sha');
+        const $button = event.target;
+        $button.textContent = 'Checking out...';
+        fetch(`/commits/${commitHash}/checkout`, { method: 'POST', credentials: 'same-origin' }).then(res => {
+          window.location.reload();
+        }).catch(() => {
+          alert(`Checking out ${commitHash} failed!`);
+          $button.textContent = 'Checkout';
+        });
+      });
+    })();
