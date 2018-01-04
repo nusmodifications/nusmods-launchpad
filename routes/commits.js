@@ -33,7 +33,7 @@ router.post('/master/build', (req, res) => {
     .substring(0, 7);
   exp.ongoingBuild = currentCommit;
   console.log(cmd);
-   // Has to be async or else the whole server freezes.
+  // Has to be async or else the whole server freezes.
   childProcess.exec(cmd, null, () => {
     exp.ongoingBuild = null;
   });

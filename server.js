@@ -23,19 +23,23 @@ const COMMIT_HASH_FILE = 'commit-hash.txt';
 // behalf, along with the user's profile.  The function must invoke `cb`
 // with a user object, which will be set at `req.user` in route handlers after
 // authentication.
-passport.use(new Strategy({
-    clientID: config.facebookAppID,
-    clientSecret: config.facebookAppSecret,
-    callbackURL: `${config.host}/login/facebook/return`,
-  }, (accessToken, refreshToken, profile, cb) => {
-    // In this example, the user's Facebook profile is supplied as the user
-    // record.  In a production-quality application, the Facebook profile should
-    // be associated with a user record in the application's database, which
-    // allows for account linking and authentication with other identity
-    // providers.
-    return cb(null, profile);
-  }));
-
+passport.use(
+  new Strategy(
+    {
+      clientID: config.facebookAppID,
+      clientSecret: config.facebookAppSecret,
+      callbackURL: `${config.host}/login/facebook/return`,
+    },
+    (accessToken, refreshToken, profile, cb) => {
+      // In this example, the user's Facebook profile is supplied as the user
+      // record.  In a production-quality application, the Facebook profile should
+      // be associated with a user record in the application's database, which
+      // allows for account linking and authentication with other identity
+      // providers.
+      return cb(null, profile);
+    },
+  ),
+);
 
 // Configure Passport authenticated session persistence.
 //
@@ -54,7 +58,6 @@ passport.deserializeUser((obj, cb) => {
   cb(null, obj);
 });
 
-
 // Create a new Express application.
 const app = express();
 
@@ -67,7 +70,9 @@ app.set('view engine', 'pug');
 app.use(require('morgan')('combined'));
 app.use(require('cookie-parser')());
 app.use(require('body-parser').urlencoded({ extended: true }));
-app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
+app.use(
+  require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }),
+);
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Initialize Passport and restore authentication state, if any, from the
@@ -77,15 +82,17 @@ app.use(passport.session());
 
 app.get('/login/facebook', passport.authenticate('facebook'));
 
-app.get('/login/facebook/return',
+app.get(
+  '/login/facebook/return',
   passport.authenticate('facebook', { failureRedirect: '/' }),
   (req, res) => {
     res.redirect('/');
-  });
+  },
+);
 
-app.use('/',
-  dashboard);
-app.use('/commits',
+app.use('/', dashboard);
+app.use(
+  '/commits',
   require('connect-ensure-login').ensureLoggedIn('/'),
   (req, res, next) => {
     // Do not allow any actions if there is an ongoing build.
@@ -95,6 +102,7 @@ app.use('/commits',
     }
     next();
   },
-  commits.router);
+  commits.router,
+);
 
 app.listen(3000);
