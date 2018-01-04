@@ -19,22 +19,27 @@ router.get('/', async (req, res, next) => {
   const history = masterCommit.history(nodegit.Revwalk.SORT.Time);
   let stagingCommit = null;
   try {
-    stagingCommit = fs.readFileSync(path.resolve(config.stagingDir, COMMIT_HASH_FILE))
-                          .toString()
-                          .trim();
+    stagingCommit = fs
+      .readFileSync(path.resolve(config.stagingDir, COMMIT_HASH_FILE))
+      .toString()
+      .trim();
   } catch (err) {}
 
   let productionCommit = null;
   try {
-    productionCommit = fs.readFileSync(path.resolve(config.productionDir, COMMIT_HASH_FILE))
-                            .toString()
-                            .trim();
+    productionCommit = fs
+      .readFileSync(path.resolve(config.productionDir, COMMIT_HASH_FILE))
+      .toString()
+      .trim();
   } catch (err) {}
 
   history.on('end', function(commitMessages) {
-    const commitObjs = commitMessages.slice(0, LATEST_COMMITS).map(commit => {
+    const commitObjs = commitMessages.slice(0, LATEST_COMMITS).map((commit) => {
       const author = commit.author();
-      const messageLines = commit.message().trim().split('\n');
+      const messageLines = commit
+        .message()
+        .trim()
+        .split('\n');
       const shortMessage = messageLines[0];
       const extendedMessage = messageLines.length > 1 ? messageLines.slice(1).join('\n') : '';
       return {
