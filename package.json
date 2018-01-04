@@ -26,5 +26,8 @@
     "passport": "^0.2.2",
     "passport-facebook": "^2.0.0",
     "pug": "2.0.0-beta11"
+  },
+  "devDependencies": {
+    "prettier": "^1.9.2"
   }
 }
