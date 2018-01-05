@@ -1,5 +1,5 @@
-const childProcess = require('child_process');
 const promisify = require('util').promisify;
+const execPromise = promisify(require('child_process').exec);
 
 const express = require('express');
 const router = express.Router();
@@ -10,8 +10,6 @@ const commitHashUtils = require('../utils/commitHash');
 
 const latestCommitHash = commitHashUtils.latestCommitHash;
 const buildCommitHash = commitHashUtils.buildCommitHash;
-
-const execPromise = promisify(childProcess.exec);
 
 const exp = {
   router,
