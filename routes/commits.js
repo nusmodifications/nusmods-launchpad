@@ -6,7 +6,10 @@ const router = express.Router();
 
 const config = require('../config');
 const sendMessage = require('../utils/slackbot');
-const latestCommitHash = require('../utils/commitHash').latestCommitHash;
+const commitHashUtils = require('../utils/commitHash');
+
+const latestCommitHash = commitHashUtils.latestCommitHash;
+const buildCommitHash = commitHashUtils.buildCommitHash;
 
 const execPromise = promisify(childProcess.exec);
 
@@ -20,14 +23,16 @@ router.post('/master/pull', async (req, res) => {
   console.log(cmd);
   sendMessage('Pulling master…');
   await execPromise(cmd);
-  sendMessage('Done pulling master.');
+  const currentCommit = latestCommitHash(config.app);
+  sendMessage('Done pulling master. Now at `' + currentCommit + '`.');
   res.sendStatus(204);
 });
 
 router.post('/master/yarn', async (req, res) => {
   const cmd = `cd ${config.app} && yarn install`;
   console.log(cmd);
-  sendMessage('Running `yarn`…');
+  const currentCommit = latestCommitHash(config.app);
+  sendMessage('Installing dependencies for `' + currentCommit + '`…');
   try {
     await execPromise(cmd);
     sendMessage('Done installing dependencies.');
@@ -51,9 +56,10 @@ router.post('/master/build', async (req, res) => {
   try {
     // Has to be async anyway or else the whole server freezes.
     await execPromise(cmd);
-    sendMessage('Built `' + currentCommit + '`!');
+    const stagingCommit = buildCommitHash(config.stagingDir);
+    sendMessage('Built `' + currentCommit + '`! Staging now at `' + stagingCommit + '`.');
   } catch (error) {
-    sendMessage(currentCommit + ' failed to build.', error);
+    sendMessage('`' + currentCommit + '` failed to build.' + error.message);
   } finally {
     exp.ongoingBuild = null;
   }
@@ -61,13 +67,14 @@ router.post('/master/build', async (req, res) => {
 
 router.post('/master/promote_staging', async (req, res) => {
   const cmd = `cd ${config.app} && yes | yarn run promote-staging`;
+  const stagingCommit = buildCommitHash(config.stagingDir);
   console.log(cmd);
-  sendMessage('Promoting staged build…');
+  sendMessage('Promoting staged build of `' + stagingCommit + '`…');
   try {
     await execPromise(cmd);
-    sendMessage('Done promoting staged build.');
+    sendMessage('Done promoting staged build of `' + stagingCommit + '`.');
   } catch (error) {
-    sendMessage('Failed to promote staging.');
+    sendMessage('Failed to promote staging.' + error.message);
   } finally {
     res.sendStatus(204);
   }
@@ -81,9 +88,9 @@ router.post('/:commitHash/checkout', async (req, res) => {
   }
   const cmd = `cd ${config.app} && git reset --hard ${commitHash}`;
   console.log(cmd);
-  sendMessage('Checking out commit ', commitHash);
+  sendMessage('Checking out commit ' + commitHash);
   await execPromise(cmd);
-  sendMessage('Done checking out commit ', commitHash);
+  sendMessage('Done checking out commit ' + commitHash);
   res.sendStatus(204);
 });
 
