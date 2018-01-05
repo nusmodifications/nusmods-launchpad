@@ -1,5 +1,4 @@
 const path = require('path');
-const fs = require('fs');
 
 const express = require('express');
 const router = express.Router();
@@ -8,8 +7,8 @@ const moment = require('moment');
 
 const config = require('../config');
 const LATEST_COMMITS = 200;
-const COMMIT_HASH_FILE = 'commit-hash.txt';
 const commits = require('./commits');
+const buildCommitHash = require('../utils/commitHash').buildCommitHash;
 
 /* GET commits log. */
 router.get('/', async (req, res, next) => {
@@ -17,21 +16,8 @@ router.get('/', async (req, res, next) => {
   const repo = await nodegit.Repository.open(path.resolve(config.repo));
   const masterCommit = await repo.getMasterCommit();
   const history = masterCommit.history(nodegit.Revwalk.SORT.Time);
-  let stagingCommit = null;
-  try {
-    stagingCommit = fs
-      .readFileSync(path.resolve(config.stagingDir, COMMIT_HASH_FILE))
-      .toString()
-      .trim();
-  } catch (err) {}
-
-  let productionCommit = null;
-  try {
-    productionCommit = fs
-      .readFileSync(path.resolve(config.productionDir, COMMIT_HASH_FILE))
-      .toString()
-      .trim();
-  } catch (err) {}
+  const stagingCommit = buildCommitHash(config.stagingDir);
+  const productionCommit = buildCommitHash(config.productionDir);
 
   history.on('end', function(commitMessages) {
     const commitObjs = commitMessages.slice(0, LATEST_COMMITS).map((commit) => {

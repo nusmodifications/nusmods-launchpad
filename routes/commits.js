@@ -6,6 +6,7 @@ const router = express.Router();
 
 const config = require('../config');
 const sendMessage = require('../utils/slackbot');
+const latestCommitHash = require('../utils/commitHash').latestCommitHash;
 
 const execPromise = promisify(childProcess.exec);
 
@@ -17,7 +18,7 @@ const exp = {
 router.post('/master/pull', async (req, res) => {
   const cmd = `cd ${config.repo} && git pull`;
   console.log(cmd);
-  sendMessage('Pulling master...');
+  sendMessage('Pulling master…');
   await execPromise(cmd);
   sendMessage('Done pulling master.');
   res.sendStatus(204);
@@ -26,7 +27,7 @@ router.post('/master/pull', async (req, res) => {
 router.post('/master/yarn', async (req, res) => {
   const cmd = `cd ${config.app} && yarn install`;
   console.log(cmd);
-  sendMessage('Running `yarn`...');
+  sendMessage('Running `yarn`…');
   try {
     await execPromise(cmd);
     sendMessage('Done installing dependencies.');
@@ -39,14 +40,10 @@ router.post('/master/yarn', async (req, res) => {
 
 router.post('/master/build', async (req, res) => {
   const cmd = `cd ${config.app} && yarn run build`;
-  const currentCommit = childProcess
-    .execSync(`cd ${config.app} && git rev-parse HEAD`)
-    .toString()
-    .trim()
-    .substring(0, 7);
+  const currentCommit = latestCommitHash(config.app);
   exp.ongoingBuild = currentCommit;
   console.log(cmd);
-  sendMessage('Building ' + currentCommit + '...');
+  sendMessage('Building `' + currentCommit + '`…');
 
   // Respond first. Client will auto reload the page
   res.sendStatus(204);
@@ -54,7 +51,7 @@ router.post('/master/build', async (req, res) => {
   try {
     // Has to be async anyway or else the whole server freezes.
     await execPromise(cmd);
-    sendMessage('Built ' + currentCommit + '!');
+    sendMessage('Built `' + currentCommit + '`!');
   } catch (error) {
     sendMessage(currentCommit + ' failed to build.', error);
   } finally {
@@ -65,7 +62,7 @@ router.post('/master/build', async (req, res) => {
 router.post('/master/promote_staging', async (req, res) => {
   const cmd = `cd ${config.app} && yes | yarn run promote-staging`;
   console.log(cmd);
-  sendMessage('Promoting staged build...');
+  sendMessage('Promoting staged build…');
   try {
     await execPromise(cmd);
     sendMessage('Done promoting staged build.');
