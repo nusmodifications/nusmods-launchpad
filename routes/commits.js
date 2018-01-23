@@ -32,7 +32,7 @@ router.post('/master/yarn', async (req, res) => {
     await execPromise(cmd);
     sendMessage('Done installing dependencies.');
   } catch (error) {
-    sendMessage('Failed to install dependencies.');
+    sendMessage(`Failed to install dependencies. ${error.message}`);
   } finally {
     res.sendStatus(204);
   }
