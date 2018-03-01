@@ -738,9 +738,9 @@ fresh@0.5.2:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
 
-fs-extra@~0.26.2:
-  version "0.26.7"
-  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-0.26.7.tgz#9ae1fdd94897798edab76d0918cf42d0c3184fa9"
+fs-extra@~0.27.0:
+  version "0.27.0"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-0.27.0.tgz#66d4c25d1d2c6a8dafed7718cfcffe930f13b2c0"
   dependencies:
     graceful-fs "^4.1.2"
     jsonfile "^2.1.0"
@@ -1273,9 +1273,9 @@ mute-stream@~0.0.4:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.7.tgz#3075ce93bc21b8fab43e1bc4da7e8115ed1e7bab"
 
-nan@^2.2.0, nan@^2.3.0:
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/nan/-/nan-2.8.0.tgz#ed715f3fe9de02b57a5e6252d90a96675e1f085a"
+nan@^2.3.0, nan@^2.9.2:
+  version "2.9.2"
+  resolved "https://registry.yarnpkg.com/nan/-/nan-2.9.2.tgz#f564d75f5f8f36a6d9456cca7a6c4fe488ab7866"
 
 nconf@0.6.9, nconf@~0.6.9:
   version "0.6.9"
@@ -1293,7 +1293,7 @@ negotiator@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
 
-node-gyp@^3.5.0:
+node-gyp@^3.6.2:
   version "3.6.2"
   resolved "https://registry.yarnpkg.com/node-gyp/-/node-gyp-3.6.2.tgz#9bfbe54562286284838e750eac05295853fa1c60"
   dependencies:
@@ -1311,7 +1311,7 @@ node-gyp@^3.5.0:
     tar "^2.0.0"
     which "1"
 
-node-pre-gyp@^0.6.39, node-pre-gyp@~0.6.32:
+node-pre-gyp@^0.6.39, node-pre-gyp@~0.6.39:
   version "0.6.39"
   resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.6.39.tgz#c00e96860b23c0e1420ac7befc5044e1d78d8649"
   dependencies:
@@ -1337,15 +1337,15 @@ nodegit-promise@~4.0.0:
   dependencies:
     asap "~2.0.3"
 
-nodegit@^0.20.3:
-  version "0.20.3"
-  resolved "https://registry.yarnpkg.com/nodegit/-/nodegit-0.20.3.tgz#a44172db08c833cdcb1ab9bbc2c832ce05898815"
+nodegit@^0.21.0:
+  version "0.21.0"
+  resolved "https://registry.yarnpkg.com/nodegit/-/nodegit-0.21.0.tgz#9c81d446fadda73ad8ca4e39ddb2ab7845cfeae9"
   dependencies:
-    fs-extra "~0.26.2"
+    fs-extra "~0.27.0"
     lodash "^4.13.1"
-    nan "^2.2.0"
-    node-gyp "^3.5.0"
-    node-pre-gyp "~0.6.32"
+    nan "^2.9.2"
+    node-gyp "^3.6.2"
+    node-pre-gyp "~0.6.39"
     promisify-node "~0.3.0"
 
 "nopt@2 || 3":
