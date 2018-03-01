@@ -29,6 +29,6 @@
     "pug": "^2.0.0-rc.4"
   },
   "devDependencies": {
-    "prettier": "^1.11.0"
+    "prettier": "^1.11.1"
   }
 }
