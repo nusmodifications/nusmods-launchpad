@@ -10,7 +10,7 @@ module.exports = function sendMessage(message) {
   if (!channels || !message) return;
   channels.forEach((channelId) => {
     web.chat
-      .postMessage(channelId, message)
+      .postMessage({ channel: channelId, text: message })
       .catch((err) => console.log('Slack bot message send error:', err));
   });
 };
