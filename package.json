@@ -21,14 +21,14 @@
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "forever": "^0.15.3",
-    "moment": "^2.22.0",
+    "moment": "^2.22.1",
     "morgan": "^1.9.0",
-    "nodegit": "^0.21.2",
+    "nodegit": "^0.22.0",
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
     "pug": "^2.0.3"
   },
   "devDependencies": {
-    "prettier": "^1.11.1"
+    "prettier": "^1.12.1"
   }
 }
