@@ -14,7 +14,7 @@
     "restart": "forever stop server.js && npm run forever"
   },
   "dependencies": {
-    "@slack/client": "^4.1.0",
+    "@slack/client": "^4.2.0",
     "body-parser": "^1.18.2",
     "connect-ensure-login": "^0.1.1",
     "cookie-parser": "^1.4.3",
