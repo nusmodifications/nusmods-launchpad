@@ -6,9 +6,9 @@
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.7.0.tgz#9a06f4f137ee84d7df0460c1fdb1135ffa6c50fd"
 
-"@slack/client@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@slack/client/-/client-4.1.0.tgz#c55c89c259cc5bb5b8ee6b6edba9a574a94809dd"
+"@slack/client@^4.2.2":
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/@slack/client/-/client-4.2.2.tgz#f997f39780bbff9c2128816e8377230a5f6bd0d5"
   dependencies:
     "@types/delay" "^2.0.1"
     "@types/form-data" "^2.2.1"
