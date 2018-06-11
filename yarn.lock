@@ -6,9 +6,9 @@
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.7.0.tgz#9a06f4f137ee84d7df0460c1fdb1135ffa6c50fd"
 
-"@slack/client@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@slack/client/-/client-4.1.0.tgz#c55c89c259cc5bb5b8ee6b6edba9a574a94809dd"
+"@slack/client@^4.3.1":
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/@slack/client/-/client-4.3.1.tgz#5caa1eaf753e4fcd23d8c04bcdc215336867a233"
   dependencies:
     "@types/delay" "^2.0.1"
     "@types/form-data" "^2.2.1"
@@ -21,7 +21,7 @@
     "@types/p-retry" "^1.0.1"
     "@types/retry" "^0.10.2"
     "@types/url-join" "^0.8.2"
-    "@types/ws" "^4.0.1"
+    "@types/ws" "^5.1.1"
     delay "^2.0.0"
     eventemitter3 "^3.0.0"
     finity "^0.5.4"
@@ -37,7 +37,7 @@
     p-retry "^1.0.0"
     retry "^0.10.1"
     url-join "^4.0.0"
-    ws "^4.1.0"
+    ws "^5.2.0"
 
 "@types/delay@^2.0.1":
   version "2.0.1"
@@ -95,9 +95,9 @@
   version "0.8.2"
   resolved "https://registry.yarnpkg.com/@types/url-join/-/url-join-0.8.2.tgz#1181ecbe1d97b7034e0ea1e35e62e86cc26b422d"
 
-"@types/ws@^4.0.1":
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/@types/ws/-/ws-4.0.2.tgz#b29037627dd7ba31ec49a4f1584840422efb856f"
+"@types/ws@^5.1.1":
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/@types/ws/-/ws-5.1.2.tgz#f02d3b1cd46db7686734f3ce83bdf46c49decd64"
   dependencies:
     "@types/events" "*"
     "@types/node" "*"
@@ -2494,12 +2494,11 @@ wrappy@1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
 
-ws@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-4.1.0.tgz#a979b5d7d4da68bf54efe0408967c324869a7289"
+ws@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-5.2.0.tgz#9fd95e3ac7c76f6ae8bcc868a0e3f11f1290c33e"
   dependencies:
     async-limiter "~1.0.0"
-    safe-buffer "~5.1.0"
 
 yargs@~3.10.0:
   version "3.10.0"
