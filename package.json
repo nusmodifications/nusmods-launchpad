@@ -29,6 +29,6 @@
     "pug": "^2.0.3"
   },
   "devDependencies": {
-    "prettier": "^1.11.1"
+    "prettier": "^1.13.7"
   }
 }
