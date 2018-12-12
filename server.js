@@ -71,7 +71,11 @@ app.use(require('morgan')('combined'));
 app.use(require('cookie-parser')());
 app.use(require('body-parser').urlencoded({ extended: true }));
 app.use(
-  require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }),
+  require('express-session')({
+    secret: config.sessionSecret,
+    resave: true,
+    saveUninitialized: true,
+  }),
 );
 app.use(express.static(path.join(__dirname, 'public')));
 
