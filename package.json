@@ -4,14 +4,13 @@
   "description": "Deployment client for NUSMods",
   "license": "MIT",
   "homepage": "https://github.com/nusmodifications/nusmods-launchpad",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git://github.com/nusmodifications/nusmods-launchpad.git"
   },
   "scripts": {
-    "start": "node server.js",
-    "forever": "forever start server.js",
-    "restart": "forever stop server.js && npm run forever"
+    "start": "node server.js"
   },
   "dependencies": {
     "@slack/client": "^4.1.0",
@@ -20,7 +19,6 @@
     "cookie-parser": "^1.4.3",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
-    "forever": "^0.15.3",
     "moment": "^2.22.0",
     "morgan": "^1.9.0",
     "nodegit": "^0.21.2",
