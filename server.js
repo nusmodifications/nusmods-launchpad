@@ -4,17 +4,9 @@ const Strategy = require('passport-facebook').Strategy;
 const config = require('./config');
 
 const path = require('path');
-const fs = require('fs');
-const childProcess = require('child_process');
-
-const router = express.Router();
-const nodegit = require('nodegit');
 
 const dashboard = require('./routes/dashboard');
 const commits = require('./routes/commits');
-
-const LATEST_COMMITS = 200;
-const COMMIT_HASH_FILE = 'commit-hash.txt';
 
 // Configure the Facebook strategy for use by Passport.
 //
@@ -109,4 +101,4 @@ app.use(
   commits.router,
 );
 
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
