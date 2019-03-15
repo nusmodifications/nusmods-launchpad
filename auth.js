@@ -1,6 +1,8 @@
 const passport = require('passport');
 const session = require('express-session');
+const FileStore = require('session-file-store')(session);
 const GitHubStrategy = require('passport-github').Strategy;
+
 const config = require('./config');
 
 // Configure GitHub strategy for use by Passport.
@@ -40,6 +42,7 @@ module.exports = function auth(app) {
       secret: config.sessionSecret,
       resave: true,
       saveUninitialized: true,
+      store: new FileStore(),
     }),
   );
 
