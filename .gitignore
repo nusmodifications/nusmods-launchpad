@@ -2,6 +2,7 @@
 
 # Local config
 config.js
+/sessions
 
 # Rest adapted from https://www.gitignore.io/api/vim,node,linux,macos,emacs,windows,ansible,database,webstorm,visualstudiocode
 
