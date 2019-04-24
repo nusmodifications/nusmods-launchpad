@@ -1,10 +1,10 @@
 module.exports = {
   // Location of the NUSMods repo root and the website root on the local filesystem
   repo: `${process.env.HOME}/Developer/nusmods/`,
-  app: `${process.env.HOME}/Developer/nusmods/www`,
+  app: `${process.env.HOME}/Developer/nusmods/website`,
 
   // Location of the NUSMods website files for staging and production on the local filesystem
-  stagingDir: `${process.env.HOME}/Developer/nusmods/www/dist`,
+  stagingDir: `${process.env.HOME}/Developer/nusmods/website/dist`,
   productionDir: `${process.env.HOME}/Developer/nusmods.com`,
 
   // Where Launchpad will be served from
