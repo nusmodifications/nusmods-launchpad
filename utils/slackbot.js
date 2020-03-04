@@ -1,4 +1,4 @@
-const WebClient = require('@slack/client').WebClient;
+const WebClient = require('@slack/web-api').WebClient;
 const config = require('../config');
 
 const token = config.slackAPIToken;
