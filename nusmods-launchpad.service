@@ -1,0 +1,16 @@
+[Unit]
+Description=NUSMods deployment dashboard
+After=network-online.target
+
+[Service]
+Type=forking
+User=ubuntu
+Environment=NODE_ENV=production
+MemoryHigh=150M
+MemoryMax=200M
+Restart=always
+WorkingDirectory=/home/ubuntu/nusmods-launchpad
+ExecStart=/home/ubuntu/.nvm/nvm-exec yarn start
+
+[Install]
+WantedBy=multi-user.target
